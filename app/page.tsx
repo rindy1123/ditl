@@ -16,11 +16,12 @@ import { API } from "@/lib/api";
 
 const PER_PAGE = 6;
 
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams: { page?: string };
-}) {
+export default async function HomePage(
+  props: {
+    searchParams: Promise<{ page?: string }>;
+  }
+) {
+  const searchParams = await props.searchParams;
   const { days } = await API.days.list();
   const { page } = searchParams;
   const totalDays = days.length;

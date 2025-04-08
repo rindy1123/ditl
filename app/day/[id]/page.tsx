@@ -16,12 +16,13 @@ import { formatDate } from "@/lib/utils";
 import { getFlagAndName } from "@/lib/countries";
 
 interface DayPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default function DayPage({ params }: DayPageProps) {
+export default async function DayPage(props: DayPageProps) {
+  const params = await props.params;
   // TODO
   // In a real app, we would fetch this data from an API
   const day = mockDays.find((d) => d.id === params.id) || mockDays[0];
