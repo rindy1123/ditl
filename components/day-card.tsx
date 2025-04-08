@@ -20,9 +20,9 @@ export function DayCard({ day }: DayCardProps) {
       <Link href={`/day/${day.id}`}>
         <CardHeader className="flex flex-row items-center gap-4 p-4">
           <div>
-            <h3 className="font-semibold">{day.user.occupation}</h3>
+            <h3 className="font-semibold">{day.occupation}</h3>
             <p className="text-sm text-muted-foreground">
-              {`${getFlagAndName(day.user.country)} • `}
+              {`${getFlagAndName(day.country)} • `}
               {formatDistanceToNow(day.date)}
             </p>
           </div>

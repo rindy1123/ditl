@@ -30,6 +30,7 @@ import { DayPieChart } from "@/components/day-pie-chart";
 import { generateRandomColor } from "@/lib/utils";
 import type { Activity } from "@/lib/types";
 import { COUNTRIES, CountryCode, getFlagAndName } from "@/lib/countries";
+import { API } from "@/lib/api";
 
 const DEFAULT_ACTIVITY_HOURS = "1";
 
@@ -79,12 +80,23 @@ export default function SharePage() {
     setActivities(activities.filter((activity) => activity.id !== id));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isFormValid) return;
-    // TODO
-    // In a real app, we would submit this data to an API
-    // For now, we'll just redirect back to the home page
+
+    try {
+      await API.days.post({
+        title,
+        description,
+        occupation,
+        country,
+        activities,
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      return;
+    }
+
     router.push("/");
   };
 

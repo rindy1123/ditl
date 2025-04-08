@@ -1,11 +1,5 @@
 import { CountryCode } from "./countries";
 
-export interface User {
-  id: string;
-  occupation: string;
-  country: CountryCode;
-}
-
 export interface Activity {
   id: string;
   name: string;
@@ -18,6 +12,7 @@ export interface Day {
   title: string;
   description?: string;
   date: string;
-  user: User;
+  occupation: string;
+  country: CountryCode;
   activities: Activity[];
 }

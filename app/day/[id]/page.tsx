@@ -42,8 +42,8 @@ export default function DayPage({ params }: DayPageProps) {
               <div>
                 <CardTitle>{day.title}</CardTitle>
                 <CardDescription>
-                  {`${day.user.occupation} • `}
-                  {`${getFlagAndName(day.user.country)} • `}
+                  {`${day.occupation} • `}
+                  {`${getFlagAndName(day.country)} • `}
                   {formatDate(day.date)}
                 </CardDescription>
               </div>

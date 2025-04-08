@@ -3,7 +3,6 @@ import { PlusCircle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { DayCard } from "@/components/day-card";
-import { mockDays } from "@/lib/mock-data";
 import {
   Pagination,
   PaginationContent,
@@ -13,18 +12,18 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { API } from "@/lib/api";
 
 const PER_PAGE = 6;
 
-export default function HomePage({
+export default async function HomePage({
   searchParams,
 }: {
   searchParams: { page?: string };
 }) {
-  // TODO
-  // In a real app, we would fetch this data from an API
+  const { days } = await API.days.list();
   const { page } = searchParams;
-  const totalDays = mockDays.length;
+  const totalDays = days.length;
   const totalPages = Math.ceil(totalDays / PER_PAGE);
   const pageNumber = Number(page);
   const currentPage =
@@ -35,7 +34,7 @@ export default function HomePage({
         : pageNumber;
   const startIndex = (currentPage - 1) * PER_PAGE;
   const endIndex = startIndex + PER_PAGE;
-  const displayedDays = mockDays.slice(startIndex, endIndex);
+  const displayedDays = days.slice(startIndex, endIndex);
 
   return (
     <div className="container mx-auto py-8">
