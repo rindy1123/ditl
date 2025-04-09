@@ -11,9 +11,9 @@ import {
 } from "@/components/ui/card";
 import { DayPieChart } from "@/components/day-pie-chart";
 import { ActivityList } from "@/components/activity-list";
-import { mockDays } from "@/lib/mock-data";
 import { formatDate } from "@/lib/utils";
 import { getFlagAndName } from "@/lib/countries";
+import { API } from "@/lib/api";
 
 interface DayPageProps {
   params: Promise<{
@@ -23,9 +23,7 @@ interface DayPageProps {
 
 export default async function DayPage(props: DayPageProps) {
   const params = await props.params;
-  // TODO
-  // In a real app, we would fetch this data from an API
-  const day = mockDays.find((d) => d.id === params.id) || mockDays[0];
+  const day = await API.days.get({ id: params.id });
 
   return (
     <div className="container mx-auto py-8">
@@ -45,7 +43,7 @@ export default async function DayPage(props: DayPageProps) {
                 <CardDescription>
                   {`${day.occupation} • `}
                   {`${getFlagAndName(day.country)} • `}
-                  {formatDate(day.date)}
+                  {formatDate(day.created_at)}
                 </CardDescription>
               </div>
             </div>

@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft, Plus, Trash2 } from "lucide-react";
@@ -18,19 +18,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { DayPieChart } from "@/components/day-pie-chart";
 import { generateRandomColor } from "@/lib/utils";
 import type { Activity } from "@/lib/types";
-import { COUNTRIES, CountryCode, getFlagAndName } from "@/lib/countries";
 import { API } from "@/lib/api";
+import { CountrySelector } from "@/components/country-selector";
 
 const DEFAULT_ACTIVITY_HOURS = "1";
 
@@ -48,19 +41,21 @@ export default function SharePage() {
     DEFAULT_ACTIVITY_HOURS,
   );
 
-  const totalHours = activities.reduce(
-    (sum, activity) => sum + activity.hours,
-    0,
+  const totalHours = useMemo(
+    () => activities.reduce((sum, activity) => sum + activity.hours, 0),
+    [activities],
   );
-  const hoursRemaining = 24 - totalHours;
-  const isValidActivityHours = (hours: number) =>
-    !isNaN(hours) && hours > 0 && hours <= hoursRemaining;
+  const hoursRemaining = useMemo(() => 24 - totalHours, [totalHours]);
+  const isValidActivityHours = useCallback(
+    (hours: number) => !isNaN(hours) && hours > 0 && hours <= hoursRemaining,
+    [hoursRemaining],
+  );
   const isFormValid = useMemo(
     () => totalHours === 24 && title && country && occupation,
     [totalHours, title, country, occupation],
   );
 
-  const handleAddActivity = () => {
+  const handleAddActivity = useCallback(() => {
     const activityHours = Number.parseFloat(newActivityHours);
     if (!newActivityName || !isValidActivityHours(activityHours)) return;
 
@@ -74,31 +69,34 @@ export default function SharePage() {
     setActivities([...activities, newActivity]);
     setNewActivityName("");
     setNewActivityHours(DEFAULT_ACTIVITY_HOURS);
-  };
+  }, [newActivityName, newActivityHours, activities, isValidActivityHours]);
 
   const handleRemoveActivity = (id: string) => {
     setActivities(activities.filter((activity) => activity.id !== id));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!isFormValid) return;
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!isFormValid) return;
 
-    try {
-      await API.days.post({
-        title,
-        description,
-        occupation,
-        country,
-        activities,
-      });
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      return;
-    }
+      try {
+        await API.days.post({
+          title,
+          description,
+          occupation,
+          country,
+          activities,
+        });
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        return;
+      }
 
-    router.push("/");
-  };
+      router.push("/");
+    },
+    [title, description, occupation, country, activities, isFormValid, router],
+  );
 
   return (
     <div className="container mx-auto py-8">
@@ -140,19 +138,7 @@ export default function SharePage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="country">Country</Label>
-                <Select required value={country} onValueChange={setCountry}>
-                  <SelectTrigger id="country">
-                    <SelectValue placeholder="Select where you live" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Object.keys(COUNTRIES).map((code) => (
-                      <SelectItem key={code} value={code}>
-                        {getFlagAndName(code as CountryCode)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <CountrySelector country={country} setCountry={setCountry} />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="description">Description (Optional)</Label>

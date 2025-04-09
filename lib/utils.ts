@@ -9,9 +9,7 @@ export function hourSuffix(hours: number): string {
   return hours === 1 ? "hour" : "hours";
 }
 
-// FIXME
 export function formatDistanceToNow(dateString: string): string {
-  console.log(dateString);
   const date = new Date(dateString);
   const now = new Date();
   const diffInMs = now.getTime() - date.getTime();

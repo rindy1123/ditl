@@ -23,7 +23,7 @@ export function DayCard({ day }: DayCardProps) {
             <h3 className="font-semibold">{day.occupation}</h3>
             <p className="text-sm text-muted-foreground">
               {`${getFlagAndName(day.country)} • `}
-              {formatDistanceToNow(day.date)}
+              {formatDistanceToNow(day.created_at)}
             </p>
           </div>
         </CardHeader>

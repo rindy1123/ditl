@@ -39,5 +39,19 @@ export const API = {
 
       return response.json();
     },
+    get: async ({ id }: { id: string }): Promise<Day> => {
+      const response = await fetch(`${ENV.API_URL}/days/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+
+      return response.json();
+    },
   },
 };

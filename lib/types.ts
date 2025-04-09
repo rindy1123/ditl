@@ -11,7 +11,7 @@ export interface Day {
   id: string;
   title: string;
   description?: string;
-  date: string;
+  created_at: string;
   occupation: string;
   country: CountryCode;
   activities: Activity[];
