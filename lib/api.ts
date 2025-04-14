@@ -17,7 +17,7 @@ interface PostDay {
 export const API = {
   days: {
     post: async (data: PostDay) => {
-      await fetch(`${ENV.API_URL}/days`, {
+      await fetch(`${ENV.API_URL}/api/days`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export const API = {
       });
     },
     list: async (): Promise<{ days: Day[] }> => {
-      const response = await fetch(`${ENV.API_URL}/days`, {
+      const response = await fetch(`${ENV.API_URL}/api/days`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export const API = {
       return response.json();
     },
     get: async ({ id }: { id: string }): Promise<Day> => {
-      const response = await fetch(`${ENV.API_URL}/days/${id}`, {
+      const response = await fetch(`${ENV.API_URL}/api/days/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
