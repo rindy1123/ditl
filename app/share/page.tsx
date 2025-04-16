@@ -107,7 +107,7 @@ export default function SharePage() {
         </Link>
       </Button>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
         <Card>
           <form onSubmit={handleSubmit}>
             <CardHeader>
