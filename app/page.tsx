@@ -16,11 +16,9 @@ import { API } from "@/lib/api";
 
 const PER_PAGE = 6;
 
-export default async function HomePage(
-  props: {
-    searchParams: Promise<{ page?: string }>;
-  }
-) {
+export default async function HomePage(props: {
+  searchParams: Promise<{ page?: string }>;
+}) {
   const searchParams = await props.searchParams;
   const { days } = await API.days.list();
   const { page } = searchParams;
@@ -42,8 +40,10 @@ export default async function HomePage(
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Day in the Life</h1>
-          <p className="text-muted-foreground">
-            See how others spend their days
+          <p className="text-xl text-muted-foreground max-w-3xl">
+            Explore how people around the world spend their 24 hours. From busy
+            professionals to students, parents to digital nomads — see the
+            diversity of daily life.
           </p>
         </div>
         <Button asChild>
