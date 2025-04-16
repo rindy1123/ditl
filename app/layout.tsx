@@ -4,6 +4,7 @@ import "./globals.css";
 import Link from "next/link";
 import Logo from "../public/logo.svg";
 import Image from "next/image";
+import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Analytics />
         <header className="border-b">
           <div className="container flex h-16 items-center px-4">
             <Link href="/" className="flex items-center gap-2">
