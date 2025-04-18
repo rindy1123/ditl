@@ -1,4 +1,8 @@
 export const COUNTRIES = {
+  NOWHERE: {
+    name: "Nowhere",
+    flag: "🏳️",
+  },
   AF: {
     name: "Afghanistan",
     flag: "🇦🇫",
